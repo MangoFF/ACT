@@ -7,6 +7,9 @@
 #SBATCH --exclusive 
 #SBATCH --exclude g0066,g0036,g0067,g0029,g0021,g0017,g0011
 #SBATCH --nodes=2
+
+source .env
+
 echo "START TIME: $(date)"
 
 # 每个节点的显卡数
