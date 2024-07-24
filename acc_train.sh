@@ -1,0 +1,1 @@
+srun -J debug --ntasks-per-node=1 --gres=gpu:8 --exclude=g0005,g0006,g0018,g0032,g0033 accelerate launch --config_file /share/home/wg/scpo/ACT/accelerate_config.yaml train.py --train_args_file dpo.json 2>&1 | tee output/train.log
