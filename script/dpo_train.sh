@@ -8,7 +8,6 @@
 #SBATCH --exclude g0066,g0036,g0067,g0029,g0021,g0017,g0011
 #SBATCH --nodes=2
 
-source .env
 
 echo "START TIME: $(date)"
 
@@ -23,8 +22,8 @@ NNODES=$SLURM_NNODES
 NODE_RANK=$SLURM_PROCID 
 WORLD_SIZE=$(($GPUS_PER_NODE*$NNODES))
 
-CMD="act/train.py \
-    --train_args_file config/dpo.json"
+CMD="act/dpo_train.py \
+--train_args_file /share/home/wg/scpo/ACT/config/dpo.json"
 
 LAUNCHER="accelerate launch \
     --multi_gpu \

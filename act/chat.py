@@ -6,6 +6,7 @@ Please note that in this demo, the memory consumption is significantly higher.
 
 """
 import os
+import torch
 from typing import Optional, Union
 from transformers import AutoModel, AutoTokenizer, LogitsProcessorList
 
@@ -15,7 +16,10 @@ print(f"USE_MODEL_PATH: {MODEL_PATH}")
 tokenizer = AutoTokenizer.from_pretrained(
     MODEL_PATH,
     trust_remote_code=True,
+    torch_dtype=torch.bfloat16,
+    attn_implementation="flash_attention_2",
     encode_special_tokens=True)
+
 model = AutoModel.from_pretrained(MODEL_PATH, trust_remote_code=True, device_map="auto").eval()
 
 
@@ -63,7 +67,7 @@ if __name__ == "__main__":
         [
             {
             "role": "system",
-            "content": "<system prompt text>",
+            "content": "",
             "tools": [
                 {
                     'type':'function',
@@ -77,11 +81,13 @@ if __name__ == "__main__":
             ]      
             },
             {"role": "user", "content": "我的爸爸和妈妈结婚为什么不能带我去"},
-            {"role": "assistant", "content": "因为他们结婚时你还没有出生"},
-            {"role": "user", "content": "我刚才的提问是"}
         ],
         [
-            {"role": "user", "content": "你好，你是谁"}
+            {
+              'role':'system',
+              'content':"你的名字叫智谱，你今年12岁了"  
+            },
+            {"role": "user", "content": "你好，你多少岁了？"}
         ]
     ]
 
